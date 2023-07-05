@@ -1,0 +1,68 @@
+create database quiz;
+use quiz;
+create table questions(
+	  id int(11) auto_increment,
+	  question varchar(260),
+	  option1 varchar(260),
+	  option2 varchar(260),
+    option3 varchar(260),
+    option4 varchar(260),
+    answer int,
+    primary key(id)
+    );
+
+insert into questions(question,option1,option2,option3,option4,answer)values
+("giddha is the folk dance of?","hydrabad","delhi","karnataka","punjab",4),
+("which is the most sensitive part of the body?","skin","mouth","eyes","lips",1),
+("fastest animal on the earth is?","lion","cat","dog","cheetah",4),
+("which day is teachers day?","jan 6","sep 5","aug 3","june 9",2),
+("what is the national game of USA?","cricket","kabadi","baseball","tennies",3);
+
+select * from questions;
+
+
+
+import mysql.connector
+mydb=mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="root",
+    database="quiz"
+)
+
+cursor =mydb.cursor()
+def display_questions(cursor):
+    query=("select * from questions")
+    cursor.execute(query)
+    questions=cursor.fetchall()
+    for question in questions:
+        print("Questions:",question[1])
+        print("options:")
+        print("1.",question[2])
+        print("2.",question[3])
+        print("3.",question[4])
+        print("4.",question[5])
+        print()
+def take_quiz(cursor):
+    score=0
+    query=("select * from questions")
+    cursor.execute(query)
+    questions=cursor.fetchall()
+    for question in questions:
+        print("Questions:",question[1])
+        print("options:")
+        print("1.",question[2])
+        print("2.",question[3])
+        print("3.",question[4])
+        print("4.",question[5])
+        print()
+        print("Enter your answer(1-4):")
+        user_ans=int(input())
+        if user_ans==question[6]:
+            score+=1
+    return score
+print("Questions:")
+display_questions(cursor)
+print("answers:")
+user_score=take_quiz(cursor)
+print(user_score)
